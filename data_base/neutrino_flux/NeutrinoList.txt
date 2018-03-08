@@ -1,0 +1,16 @@
+pp
+pep
+hep
+7Be_384.3keV
+7Be_861.3keV
+8B
+13N
+15O
+17F
+dsnbflux_8
+dsnbflux_5
+dsnbflux_3
+AtmNu_e
+AtmNu_ebar
+AtmNu_mu
+AtmNu_mubar
