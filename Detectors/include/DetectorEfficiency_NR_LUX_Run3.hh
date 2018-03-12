@@ -32,17 +32,21 @@ public:
     string line;
     getline(file, line);
 
+    cout<<line<<endl;
+    
     double maximum = -1;
     double Energy, Eff;
     while(file >> Energy >> Eff){
-      fEnergy.push_back(Energy);
+      
+      fEnergy.push_back(Energy/1e3);
       fEff.push_back(Eff);
+      
       maximum = max(maximum, Eff);
     }
 
     for(size_t i = 0; i< fEff.size(); ++i) fEff[i] /= maximum;
     
-    fInterp = new ROOT::Math::Interpolator(fEnergy, fEff);
+    fInterp = new ROOT::Math::Interpolator(fEnergy, fEff, ROOT::Math::Interpolation::kLINEAR);
     
     
   }

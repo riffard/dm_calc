@@ -5,12 +5,12 @@
 #include"TColor.h"
 #include"TStyle.h"
 
-bool is_style_loaded = false;
+//bool is_style_loaded = false;
 
 void load_style(){
 
-  if(is_style_loaded) return;
-  is_style_loaded = true;
+  //if(is_style_loaded) return;
+  //is_style_loaded = true;
   
   
   gROOT->SetStyle("Modern");

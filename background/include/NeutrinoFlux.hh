@@ -45,7 +45,7 @@ public:
       mode = "line";
       return;
     }
-    fInterp = new ROOT::Math::Interpolator(fEnergy, fAmplitude);
+    fInterp = new ROOT::Math::Interpolator(fEnergy, fAmplitude, ROOT::Math::Interpolation::kLINEAR);
   }
 
   //-------------------------------------------------------
@@ -96,7 +96,7 @@ private:
   double fLine_Amplitude;
 
   double fScaling;           // in neutrinos/cm^2/s
-
+  
   
   ROOT::Math::Interpolator* fInterp;
 

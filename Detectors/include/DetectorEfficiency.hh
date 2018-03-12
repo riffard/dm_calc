@@ -5,6 +5,8 @@
 #include <iostream>
 #include <fstream>
 
+//#include "style.hh"
+
 #include "TGraph.h"
 #include "TCanvas.h"
 #include "Math/Interpolator.h"
@@ -16,6 +18,8 @@ class DetectorEfficiency{
 
 public:
   DetectorEfficiency(){
+
+    //load_style();
     
     fName = "";
     fGrEfficiency = NULL;
