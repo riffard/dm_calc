@@ -117,8 +117,7 @@ void NeutrinoRate::GetRate(TH1D* hE, THStack* hs, TLegend* leg){
       }
 
       //Apply efficiency
-      
-      rate = fEfficiency->GetEfficiency(E_recoil);
+      if(fEfficiency) rate *= fEfficiency->GetEfficiency(E_recoil);
       
       hE_contribution->SetBinContent(iE, rate);
 
