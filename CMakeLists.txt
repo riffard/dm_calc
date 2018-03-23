@@ -11,19 +11,26 @@ cmake_minimum_required(VERSION 2.6)
 project(DM_CALC)
 
 ###############        Root include/lib dir        #####################
-find_package(ROOT REQUIRED COMPONENTS RooStats MathCore)
+
+find_package(ROOT COMPONENTS RooStats MathCore)
+IF(NOT ${ROOT_FOUND})
+	message("Root not found... Let's try an other way ;)")
+	include($ENV{ROOTSYS}/etc/root/cmake/FindROOT.cmake)
+ENDIF()
 
 include_directories(${ROOT_INCLUDE_DIRS})
 
 link_directories( ${ROOT_LIBRARY_DIR})
 
 ###############        Root include/lib dir        #####################
-find_package(Boost)
+find_package(Boost REQUIRED)
 
-include_directories(${BOOST_INCLUDE_DIRS})
+include_directories(${Boost_INCLUDE_DIRS})
 
-link_directories( ${BOOST_LIBRARY_DIR})
+link_directories( ${Boost_LIBRARY_DIR})
 
+
+message("${Boost_INCLUDE_DIRS}")
 
 
 
