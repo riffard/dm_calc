@@ -8,10 +8,9 @@
 cmake_minimum_required(VERSION 2.6)
 
 ###############              Project name          #####################
-project(DM_CALC)
+project(dm_calc)
 
 ###############        Root include/lib dir        #####################
-
 find_package(ROOT COMPONENTS RooStats MathCore)
 IF(NOT ${ROOT_FOUND})
 	message("Root not found... Let's try an other way ;)")
@@ -24,15 +23,28 @@ link_directories( ${ROOT_LIBRARY_DIR})
 
 ###############        Root include/lib dir        #####################
 find_package(Boost REQUIRED)
-
 include_directories(${Boost_INCLUDE_DIRS})
-
 link_directories( ${Boost_LIBRARY_DIR})
 
 
-message("${Boost_INCLUDE_DIRS}")
+###############                #####################
+if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+   MESSAGE(STATUS "Using default installation directory in build directory")
+ set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}")
+endif ()
 
+set(INSTALL_LIB_DIR "lib" CACHE PATH "Installation directory for libraries")
+set(INSTALL_INCLUDE_DIR "include" CACHE PATH
+  "Installation directory for header files")
+set(INSTALL_CMAKE_DIR "${DEF_INSTALL_CMAKE_DIR}" CACHE PATH
+  "Installation directory for CMake files")
 
+foreach(p LIB INCLUDE CMAKE)
+  set(var INSTALL_${p}_DIR)
+  if(NOT IS_ABSOLUTE "${${var}}")
+    set(${var} "${CMAKE_INSTALL_PREFIX}/${${var}}")
+  endif()
+endforeach()
 
 
 
@@ -104,6 +116,8 @@ file(GLOB sources_det ${PROJECT_SOURCE_DIR}/Detectors/src/*.cc)
 file(GLOB headers_det ${PROJECT_SOURCE_DIR}/Detectors/include/*.hh)
 
 
+
+
 set(all_header "${headers_common};${headers_model_wimp};${headers_bkg};${headers_det}")
 
 foreach (header ${all_header})
@@ -136,5 +150,44 @@ target_link_libraries(dm_calc ${ROOT_LIBRARIES} ${BOOST_LIBRARIES} MathMore)
 
 LINK_DIRECTORIES(${CMAKE_BINARY_DIR}/lib)
 
+set_target_properties(dm_calc PROPERTIES PUBLIC_HEADER "${headers_common};${headers_model_wimp};${headers_bkg};${headers_det}")
+
+
 ############### install the library ###################
-install(TARGETS dm_calc DESTINATION ${PROJECT_SOURCE_DIR}/lib)
+#install(TARGETS dm_calc DESTINATION ${PROJECT_SOURCE_DIR}/lib)
+install(TARGETS dm_calc
+  # IMPORTANT: Add the foo library to the "export-set"
+  EXPORT dm_calcTargets
+  LIBRARY DESTINATION "${INSTALL_LIB_DIR}"
+  PUBLIC_HEADER DESTINATION "${INSTALL_INCLUDE_DIR}")
+
+export(PACKAGE dm_calc)
+export(TARGETS dm_calc
+  FILE "${PROJECT_BINARY_DIR}/dm_calcTargets.cmake")
+
+
+
+file(RELATIVE_PATH REL_INCLUDE_DIR "${INSTALL_CMAKE_DIR}"
+   "${INSTALL_INCLUDE_DIR}")
+# ... for the build tree
+set(CONF_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}" "${PROJECT_BINARY_DIR}")
+configure_file(dm_calcConfig.cmake.in
+  "${PROJECT_BINARY_DIR}/dm_calcConfig.cmake" @ONLY)
+# ... for the install tree
+set(CONF_INCLUDE_DIRS "\${dm_calc_CMAKE_DIR}/${REL_INCLUDE_DIR}")
+configure_file(dm_calcConfig.cmake.in
+  "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/dm_calcConfig.cmake" @ONLY)
+# ... for both
+configure_file(dm_calcConfigVersion.cmake.in
+  "${PROJECT_BINARY_DIR}/dm_calcConfigVersion.cmake" @ONLY)
+ 
+# Install the dm_calcConfig.cmake and dm_calcConfigVersion.cmake
+install(FILES
+  "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/dm_calcConfig.cmake"
+  "${PROJECT_BINARY_DIR}/dm_calcConfigVersion.cmake"
+  DESTINATION "${INSTALL_CMAKE_DIR}" COMPONENT dev)
+ 
+# Install the export set for use with the install-tree
+install(EXPORT dm_calcTargets DESTINATION
+  "${INSTALL_CMAKE_DIR}" COMPONENT dev)
+
