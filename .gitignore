@@ -5,3 +5,9 @@ CMakeFiles
 Makefile
 cmake_install.cmake
 lib
+install_manifest.txt
+dm_calcConfig.cmake
+dm_calcConfigVersion.cmake
+dm_calcTargets-debug.cmake
+dm_calcTargets.cmake
+include
