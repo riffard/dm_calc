@@ -7,6 +7,7 @@
 
 //#include "style.hh"
 
+#include "TAxis.h"
 #include "TGraph.h"
 #include "TCanvas.h"
 #include "Math/Interpolator.h"

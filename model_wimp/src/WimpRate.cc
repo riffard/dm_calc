@@ -1,22 +1,22 @@
-#include "wimp_calculator.hh"
+#include "WimpRate.hh"
 
 
 
 
 
-wimp_calculator::wimp_calculator(string CalcName, Target* target, HaloModel* halo){
+WimpRate::WimpRate(string CalcName, Target* target, HaloModel* halo, DetectorEfficiency* efficiency){
 
   fCalcName = CalcName;
   fTarget = target;
   fHalo = halo;
-
-  cout<<"<Info::wimp_calculator> Creation of a new wimp_calculator: "<< CalcName <<endl;
+  fEfficiency = efficiency;
+  cout<<"<Info::WimpRate> Creation of a new WimpRate: "<< CalcName <<endl;
 
 }
 
 
 
-wimp_calculator::~wimp_calculator(){
+WimpRate::~WimpRate(){
 
 
 
@@ -26,8 +26,20 @@ wimp_calculator::~wimp_calculator(){
 }
 
 
+void WimpRate::GetRate(TH1D*h, double mChi, double sigma0Si){
 
-double wimp_calculator::Rate_SI(double Er, double mChi, double sigma0Si){
+  h->Reset();
+  for(int i=1; i<= h->GetNbinsX(); ++i){
+
+    double Er = h->GetXaxis()->GetBinCenter(i);
+    double rate = Rate_SI(Er, mChi, sigma0Si);
+    h->SetBinContent(i, rate);
+  }
+  
+}
+
+
+double WimpRate::Rate_SI(double Er, double mChi, double sigma0Si){
 
 
   double rate = 0;
@@ -42,14 +54,16 @@ double wimp_calculator::Rate_SI(double Er, double mChi, double sigma0Si){
     double m = nucleus->GetMGeV()*1e6;
     double mChi_eV = mChi*1e6;
     
-    rate += fraction*wimp_calculator::Rate_SI(Er, mChi_eV,
+    rate += fraction*WimpRate::Rate_SI(Er, mChi_eV,
 					      m, A, Z,
 					      sigma0Si);
     
     
     
   }
-
+  
+  if(fEfficiency) rate *= fEfficiency->GetEfficiency(Er);
+  
 
   return rate;
 }
@@ -57,7 +71,7 @@ double wimp_calculator::Rate_SI(double Er, double mChi, double sigma0Si){
 
 
 
-double wimp_calculator::Rate_SI(double E_r, double m_wimp,
+double WimpRate::Rate_SI(double E_r, double m_wimp,
 				double m_nuc, double A_nuc, double Z_nuc,
 				double xsec_wn){
   
