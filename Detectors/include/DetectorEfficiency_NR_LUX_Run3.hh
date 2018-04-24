@@ -19,7 +19,7 @@ public:
     fName = "NR_LUX_Run3";
 
     
-    fDataFileName = (string)getenv("TOOLS_PATH") + "/data_base/DetectorEfficiency/LUX_NR_Run3.data";
+    fDataFileName = (string)getenv("DM_CALC_PATH") + "/data_base/DetectorEfficiency/LUX_NR_Run3.data";
 
 
     ifstream file(fDataFileName.c_str());

@@ -2,7 +2,7 @@
 
 #include <boost/algorithm/string.hpp>
 
-NeutrinoRate::NeutrinoRate(Target* target, NeutrinoFlux* neutrino_flux, string required_fluxes, NeutrinoCrossSection* cross_section, DetectorEfficiency* efficiency){
+NeutrinoRate::NeutrinoRate(Target* target, NeutrinoFlux* neutrino_flux, string required_fluxes, NeutrinoCrossSection* cross_section, VDetectorEfficiency* efficiency){
   
   fTarget = target;
   fNeutrinoFluxDB = neutrino_flux;

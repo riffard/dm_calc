@@ -4,7 +4,7 @@
 
 
 
-WimpRate::WimpRate(string CalcName, Target* target, HaloModel* halo, DetectorEfficiency* efficiency){
+WimpRate::WimpRate(string CalcName, Target* target, HaloModel* halo, VDetectorEfficiency* efficiency){
 
   fCalcName = CalcName;
   fTarget = target;

@@ -8,7 +8,7 @@
 
 #include "Target.hh"
 #include "HaloModel.hh"
-#include "DetectorEfficiency.hh"
+#include "VDetectorEfficiency.hh"
 
 using namespace std;
 
@@ -17,7 +17,7 @@ class WimpRate{
 
 public:
 
-  WimpRate(string CalcName, Target* target,  HaloModel* halo, DetectorEfficiency* efficiency = NULL);
+  WimpRate(string CalcName, Target* target,  HaloModel* halo, VDetectorEfficiency* efficiency = NULL);
   ~WimpRate();
   
 
@@ -38,7 +38,7 @@ private:
   string fCalcName;
   Target* fTarget;
   HaloModel* fHalo;
-  DetectorEfficiency* fEfficiency;  
+  VDetectorEfficiency* fEfficiency;  
 };
 
 

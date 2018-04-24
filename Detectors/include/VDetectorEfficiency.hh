@@ -1,5 +1,5 @@
-#ifndef DetectorEfficiency_hh
-#define DetectorEfficiency_hh 1
+#ifndef VDetectorEfficiency_hh
+#define VDetectorEfficiency_hh 1
 
 
 #include <iostream>
@@ -15,10 +15,10 @@
 using namespace std;
 
 
-class DetectorEfficiency{
+class VDetectorEfficiency{
 
 public:
-  DetectorEfficiency(){
+  VDetectorEfficiency(){
 
     //load_style();
     
@@ -26,7 +26,7 @@ public:
     fGrEfficiency = NULL;
   }
   
-  virtual ~DetectorEfficiency(){}
+  virtual ~VDetectorEfficiency(){}
 
   virtual double GetEfficiency(double E){return -1;}
 

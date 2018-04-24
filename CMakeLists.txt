@@ -106,11 +106,8 @@ endif (CMAKE_SYSTEM_NAME MATCHES Darwin)
 file(GLOB sources_common ${PROJECT_SOURCE_DIR}/common/src/*.cc)
 file(GLOB headers_common ${PROJECT_SOURCE_DIR}/common/include/*.hh)
 
-file(GLOB sources_model_wimp ${PROJECT_SOURCE_DIR}/model_wimp/src/*.cc)
-file(GLOB headers_model_wimp ${PROJECT_SOURCE_DIR}/model_wimp/include/*.hh)
-
-file(GLOB sources_bkg ${PROJECT_SOURCE_DIR}/background/src/*.cc)
-file(GLOB headers_bkg ${PROJECT_SOURCE_DIR}/background/include/*.hh)
+file(GLOB sources_models ${PROJECT_SOURCE_DIR}/Models/*/*.cc)
+file(GLOB headers_models ${PROJECT_SOURCE_DIR}/Models/*/*.hh)
 
 file(GLOB sources_det ${PROJECT_SOURCE_DIR}/Detectors/src/*.cc)
 file(GLOB headers_det ${PROJECT_SOURCE_DIR}/Detectors/include/*.hh)
@@ -118,7 +115,7 @@ file(GLOB headers_det ${PROJECT_SOURCE_DIR}/Detectors/include/*.hh)
 
 
 
-set(all_header "${headers_common};${headers_model_wimp};${headers_bkg};${headers_det}")
+set(all_header "${headers_common};${headers_models};${headers_bkg};${headers_det}")
 
 foreach (header ${all_header})
 	GET_FILENAME_COMPONENT(dir_path ${header} PATH)
@@ -144,13 +141,13 @@ set(EXECUTABLE_OUTPUT_PATH "${CMAKE_BINARY_DIR}/bin")
 
 
 ###############      build the library     #####################
-add_library(dm_calc SHARED ${sources_common} ${sources_model_wimp} ${sources_bkg} ${sources_det} ${headers_det})
+add_library(dm_calc SHARED ${sources_common} ${sources_models} ${sources_bkg} ${sources_det} ${headers_det})
 
 target_link_libraries(dm_calc ${ROOT_LIBRARIES} ${BOOST_LIBRARIES} MathMore)
 
 LINK_DIRECTORIES(${CMAKE_BINARY_DIR}/lib)
 
-set_target_properties(dm_calc PROPERTIES PUBLIC_HEADER "${headers_common};${headers_model_wimp};${headers_bkg};${headers_det}")
+set_target_properties(dm_calc PROPERTIES PUBLIC_HEADER "${headers_common};${headers_models};${headers_bkg};${headers_det}")
 
 
 ############### install the library ###################
