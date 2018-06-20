@@ -3,6 +3,8 @@
 
 #include "NeutrinoCrossSection.hh"
 
+#include "TMath.h"
+
 class NeutrinoCrossSection_coherent_NR: public NeutrinoCrossSection{
 
 
