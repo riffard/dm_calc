@@ -2,7 +2,7 @@
 
 #include <boost/algorithm/string.hpp>
 
-NeutrinoRate::NeutrinoRate(Target* target, NeutrinoFlux* neutrino_flux, string required_fluxes, NeutrinoCrossSection* cross_section, VDetectorEfficiency* efficiency){
+NeutrinoRate::NeutrinoRate(Target* target, NeutrinoFlux* neutrino_flux, string required_fluxes, NeutrinoCrossSection* cross_section){
   
   fTarget = target;
   fNeutrinoFluxDB = neutrino_flux;
@@ -14,7 +14,7 @@ NeutrinoRate::NeutrinoRate(Target* target, NeutrinoFlux* neutrino_flux, string r
     boost::split(fRequiredFluxes, required_fluxes, boost::is_any_of(",: ;"));  
   }
   fCrossSection = cross_section;
-  fEfficiency = efficiency;
+
 }
 
 
@@ -31,6 +31,7 @@ NeutrinoRate::~NeutrinoRate(){
 
 void NeutrinoRate::GetRate(TH1D* hE, THStack* hs, TLegend* leg){
 
+  double m_e = 511;
 
 
   for(int iflux = 0; iflux < fRequiredFluxes.size(); iflux++){
@@ -58,7 +59,15 @@ void NeutrinoRate::GetRate(TH1D* hE, THStack* hs, TLegend* leg){
 	Nucleus* nucleus = fTarget->GetComponant(incl, fraction);
 
 	double m_nuc = nucleus->GetMGeV()*1e6;
-	double E_nu_min = sqrt( m_nuc * E_recoil / 2); // keV
+        double E_nu_min = 0.0;
+        if (fCrossSection->GetCrossSectionName() == "coherent_NR")
+	    E_nu_min = sqrt( m_nuc * E_recoil / 2); // keV
+        else if (fCrossSection->GetCrossSectionName() == "electroweak_ER")
+            E_nu_min = 0.5 * (E_recoil + sqrt(E_recoil * (E_recoil + 2 * m_e)));
+        else {
+            cerr << "Cross-section type not found" << endl;
+            exit(EXIT_FAILURE);
+        }
 	
 	double dRdEr  = 0;
 	
@@ -116,8 +125,6 @@ void NeutrinoRate::GetRate(TH1D* hE, THStack* hs, TLegend* leg){
        	
       }
 
-      //Apply efficiency
-      if(fEfficiency) rate *= fEfficiency->GetEfficiency(E_recoil);
       
       hE_contribution->SetBinContent(iE, rate);
 

@@ -12,7 +12,6 @@
 #include "Target.hh"
 #include "NeutrinoFlux.hh"
 #include "NeutrinoCrossSection.hh"
-#include "VDetectorEfficiency.hh"
 
 using namespace std;
 
@@ -22,7 +21,7 @@ class NeutrinoRate{
 
 public:
   
-  NeutrinoRate(Target* target, NeutrinoFlux* neutrino_flux, string required_fluxes, NeutrinoCrossSection* cross_section, VDetectorEfficiency* efficiency = NULL);
+  NeutrinoRate(Target* target, NeutrinoFlux* neutrino_flux, string required_fluxes, NeutrinoCrossSection* cross_section);
   
   ~NeutrinoRate();
 
@@ -34,7 +33,6 @@ private:
   Target* fTarget;
   NeutrinoFlux* fNeutrinoFluxDB;
   NeutrinoCrossSection* fCrossSection;
-  VDetectorEfficiency* fEfficiency;
   
   string fRequiredFluxes_str;
   vector<string> fRequiredFluxes;

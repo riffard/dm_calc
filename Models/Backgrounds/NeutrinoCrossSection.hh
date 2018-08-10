@@ -20,6 +20,7 @@ public:
 
   
   virtual double GetCrossSection(double E_recoil, double E_nrutrino, Nucleus* nucleus){ return 0;};
+  string GetCrossSectionName() {return fCrossSectionName;}
   
 protected:
 
