@@ -37,3 +37,5 @@ elif [ "${ROOT_VERSION}" == 5 ]; then
   source /cvmfs/lz.opensciencegrid.org/ROOT/v5.34.32/slc6_gcc44_x86_64/root/bin/thisroot.sh
 fi
 
+export BOOST_INCLUDEDIR=/cvmfs/sft.cern.ch/lcg/external/Boost/1.53.0_python2.7/x86_64-slc6-gcc47-opt/include/boost-1_53/
+export Boost_INCLUDE_DIR=$BOOST_INCLUDEDIR

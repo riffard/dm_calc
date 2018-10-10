@@ -22,6 +22,9 @@ include_directories(${ROOT_INCLUDE_DIRS})
 link_directories( ${ROOT_LIBRARY_DIR})
 
 ###############        Root include/lib dir        #####################
+
+message("$ENV{Boost_INCLUDE_DIR}")
+
 find_package(Boost REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 link_directories( ${Boost_LIBRARY_DIR})
