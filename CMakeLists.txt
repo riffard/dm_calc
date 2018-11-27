@@ -153,6 +153,35 @@ LINK_DIRECTORIES(${CMAKE_BINARY_DIR}/lib)
 set_target_properties(dm_calc PROPERTIES PUBLIC_HEADER "${headers_common};${headers_models};${headers_bkg};${headers_det}")
 
 
+############### Build the example ###################
+file( GLOB  APP_SOURCES RELATIVE "${CMAKE_BINARY_DIR}" "Examples/*.cc" )
+
+
+foreach( testsourcefile ${APP_SOURCES} )
+    get_filename_component(testsourcefilename ${testsourcefile} NAME)
+    string( REPLACE ".cc" ".bin" testname ${testsourcefilename} )
+
+    add_executable(${testname} ${testsourcefile})
+    target_include_directories(${testname}
+                  PUBLIC
+                        $<INSTALL_INTERFACE:include>
+                  PRIVATE
+		        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Models/Backgrounds>
+		        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Models/Signals>
+		        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/common>
+                )
+
+
+
+    target_link_libraries(${testname}
+                PUBLIC
+                        ${ROOT_LIBRARIES}
+                PRIVATE
+		dm_calc )
+
+endforeach( testsourcefile ${APP_SOURCES} )
+
+
 ############### install the library ###################
 #install(TARGETS dm_calc DESTINATION ${PROJECT_SOURCE_DIR}/lib)
 install(TARGETS dm_calc
