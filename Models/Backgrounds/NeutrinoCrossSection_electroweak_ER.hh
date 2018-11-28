@@ -45,7 +45,7 @@ public:
     // Calculate full cross-section, weighted for survival probability
     double dxsecdEr = 0.55 * dxsecdEr_electron + 0.45 * dxsecdEr_mutau;
     dxsecdEr *= Z_nuc; // Normalize to number of electrons in atom
-    dxsecdEr /= 3.88e-16; // cm^2/keV
+    dxsecdEr *= 3.88e-16; // cm^2/keV
 
     if (dxsecdEr < 0) return 0;
     else return dxsecdEr;

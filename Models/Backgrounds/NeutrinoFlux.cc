@@ -16,7 +16,7 @@ NeutrinoFlux::NeutrinoFlux(){
   
   load_style();
 
-  data_base_path = "/data_base/neutrino_flux";
+  data_base_path = "./data_base/neutrino_flux";
   if(getenv("DM_CALC_PATH")) data_base_path = (string)getenv("DM_CALC_PATH") + "/data_base/neutrino_flux";
   
   
