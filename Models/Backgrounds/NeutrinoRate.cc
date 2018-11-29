@@ -114,8 +114,9 @@ void NeutrinoRate::GetRate(TH1D* hE, THStack* hs, TLegend* leg){
 
 	  }
 
-	  dRdEr = integral * (5.61e35 / m_nuc);
-	  dRdEr = dRdEr * 3.16e7; // evts/keV/tonne/yr
+          // Currently, dRdEr is in evts/keV/atom/sec
+	  dRdEr = integral * (5.61e35 / m_nuc); // evts/keV/tonne/sec
+	  dRdEr = dRdEr * 3.1558e7; // evts/keV/tonne/yr
 	  
 	  if (dRdEr < 0) dRdEr = 0;
 
