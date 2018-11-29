@@ -77,11 +77,10 @@ int main(int argc, char** argv){
   neutrino_fluxes = new NeutrinoFlux();
   // Neutrino cross section
   cross_section = new NeutrinoCrossSection_electroweak_ER;
-  //cross_section = new NeutrinoCrossSection_coherent_NR;
   // Neutrino rate calculator
-  neutrino_rate = new NeutrinoRate(fTarget, neutrino_fluxes, "All", cross_section);
+  neutrino_rate = new NeutrinoRate(fTarget, neutrino_fluxes, "pp", cross_section);
   
-  TH1D* hE = new TH1D("hE_input","Energy input spectrum",1000, 0, 100);
+  TH1D* hE = new TH1D("hE_input","Energy input spectrum", 1000, 1., 300.);
   
   neutrino_rate->GetRate(hE);
   
@@ -91,10 +90,13 @@ int main(int argc, char** argv){
 
   c->SetLogx();
   c->SetLogy();
+  hE->SetAxisRange(1., 10., "Y");
+  hE->GetXaxis()->SetTitle("Recoil Energy [keV]");
+  hE->GetYaxis()->SetTitle("Recoil Rate [evts/keV/tonne/yr]");
   c->Update();
   
   cout<<"Done"<<endl;
   theApp->Run();
-  
+
   return 0; 
 }
