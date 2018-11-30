@@ -11,7 +11,7 @@ cmake_minimum_required(VERSION 2.6)
 project(dm_calc)
 
 ###############        Root include/lib dir        #####################
-find_package(ROOT COMPONENTS MathCore)
+find_package(ROOT COMPONENTS MathCore Hist Graf Gpad)
 IF(NOT ${ROOT_FOUND})
 	message("Root not found... Let's try an other way ;)")
 	include($ENV{ROOTSYS}/etc/root/cmake/FindROOT.cmake)
