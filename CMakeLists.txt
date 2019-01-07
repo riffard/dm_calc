@@ -82,6 +82,9 @@ set(INSTALL_CMAKE_DIR "cmake")
 # Target properties
 set_target_properties(DmCalc PROPERTIES PUBLIC_HEADER "${headers_Common};${headers_models};${headers_bkg};${headers_det}")
 
+set_target_properties(DmCalc PROPERTIES
+			     ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
+			     LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 
 install(TARGETS DmCalc
 	EXPORT DmCalc-targets
@@ -139,6 +142,7 @@ foreach( testsourcefile ${APP_SOURCES} )
                         ${ROOT_LIBRARIES}
                 PRIVATE
 			DmCalc )
+     set_target_properties(${testname} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 
      install(TARGETS ${testname} DESTINATION ${INSTALL_BIN_DIR})
 
