@@ -1,0 +1,43 @@
+#----------------------------------------------------------------------------
+# Locate ourselves, since all other config files should have been installed
+# alongside us...
+#
+get_filename_component(DmCalc_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
+
+#----------------------------------------------------------------------------
+# Configure the path to the DmCalc headers, using a relative path if possible.
+# This is only known at CMake time, so we expand a CMake supplied variable.
+#
+
+# Dmcalc configured for the install with relative paths, so use these
+get_filename_component(DmCalc_INCLUDE_DIRS "${DmCalc_CMAKE_DIR}/include" ABSOLUTE)
+
+# DmCalc configured for the install with relative paths, so use these
+get_filename_component(DmCalc_LIBRARY_DIR "${DmCalc_CMAKE_DIR}/lib" ABSOLUTE)
+
+# DmCalc configured for the install with relative paths, so use these
+get_filename_component(DmCalc_BINARY_DIR "${DmCalc_CMAKE_DIR}/bin" ABSOLUTE)
+
+#----------------------------------------------------------------------------
+# Include the file listing all the imported targets and options
+list(APPEND CMAKE_MODULE_PATH ${DmCalc_CMAKE_DIR})
+
+if(NOT DmCalc_BINARY_DIR)
+  include("${DmCalc_CMAKE_DIR}/cmake/DmCalcTargets.cmake")
+endif()
+
+#----------------------------------------------------------------------------
+# Now set them to DmCalc_LIBRARIES
+set(DmCalc_LIBRARIES)
+if(MSVC)
+  set(CMAKE_FIND_LIBRARY_PREFIXES "lib")
+  set(CMAKE_FIND_LIBRARY_SUFFIXES ".lib" ".dll")
+endif()
+
+find_library(DmCalc_LIBRARY DmCalc HINTS ${DmCalc_LIBRARY_DIR})
+ if(DmCalc_LIBRARY)
+   mark_as_advanced(DmCalc_LIBRARY)
+   list(APPEND DmCalc_LIBRARIES ${DmCalc_LIBRARY})
+endif()
+
+
