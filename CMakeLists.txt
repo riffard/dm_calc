@@ -15,6 +15,12 @@ set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_BUILD_TYPE RelWithDebInfo)
 
 
+# If the install directory not specified, use the build directory
+if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+   MESSAGE(STATUS "Using default installation directory in build directory")
+ set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}")
+endif ()
+
 ################################################################################
 ################################################################################
 
