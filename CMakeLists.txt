@@ -44,8 +44,8 @@ ENDIF()
 
 ###############             Project files           #####################
 
-file(GLOB sources_common ${PROJECT_SOURCE_DIR}/common/*.cc)
-file(GLOB headers_common ${PROJECT_SOURCE_DIR}/common/*.hh)
+file(GLOB sources_Common ${PROJECT_SOURCE_DIR}/Common/*.cc)
+file(GLOB headers_Common ${PROJECT_SOURCE_DIR}/Common/*.hh)
 
 file(GLOB sources_models ${PROJECT_SOURCE_DIR}/Models/*/*.cc)
 file(GLOB headers_models ${PROJECT_SOURCE_DIR}/Models/*/*.hh)
@@ -56,7 +56,7 @@ file(GLOB headers_det ${PROJECT_SOURCE_DIR}/Detectors/*.hh)
 
 
 ###############      build the library     #####################
-add_library(DmCalc SHARED ${sources_common} ${sources_models} ${sources_bkg} ${sources_det} ${headers_det})
+add_library(DmCalc SHARED ${sources_Common} ${sources_models} ${sources_bkg} ${sources_det} ${headers_det})
 
 target_link_libraries(DmCalc ${ROOT_LIBRARIES})
 
@@ -67,7 +67,7 @@ target_include_directories( DmCalc
 		        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Detectors>
 		        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Models/Backgrounds>
 		        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Models/Signals>
-		        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/common>)
+		        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Common>)
 
 ##############################################
 # Installation instructions
@@ -80,7 +80,7 @@ set(INSTALL_CMAKE_DIR "cmake")
 
 
 # Target properties
-set_target_properties(DmCalc PROPERTIES PUBLIC_HEADER "${headers_common};${headers_models};${headers_bkg};${headers_det}")
+set_target_properties(DmCalc PROPERTIES PUBLIC_HEADER "${headers_Common};${headers_models};${headers_bkg};${headers_det}")
 
 
 install(TARGETS DmCalc
@@ -110,14 +110,11 @@ install(FILES
     DESTINATION ${INSTALL_CMAKE_DIR}
 )
 
-
-#install(FILES DmCalcConfig.cmake DESTINATION "cmake")
-
+install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/DataBase
+	DESTINATION .)
 
 
 export(PACKAGE DmCalc)
-
-
 
 ############### Build the example ###################
 file( GLOB  APP_SOURCES RELATIVE "${CMAKE_BINARY_DIR}" "Examples/*.cc" )
@@ -134,7 +131,7 @@ foreach( testsourcefile ${APP_SOURCES} )
                   PRIVATE
 		        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Models/Backgrounds>
 		        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Models/Signals>
-		        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/common>
+		        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Common>
                 )
 
     target_link_libraries(${testname}
